@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to the Authentication System!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #141414;
+            color: #fff;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        a {
+            text-decoration: none;
+            color: #fff;
+            background-color: #e50914;
+            padding: 30px 60px;
+            border-radius: 10px;
+            font-size: 24px;
+            margin: 10px;
+        }
+        a:hover {
+            background-color: #f40612;
+        }
+        h1 {
+            font-size: 36px;
+            margin-top: 50px;
+        }
+        .description {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #333;
+            border-radius: 10px;
+            font-size: 18px;
+            max-width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 20px;
+        }
+
+        /* Styles for the cookie consent popup */
+        #cookieConsent {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            display: block;
+            z-index: 1000;
+        }
+        .cookie-btn {
+            margin: 5px;
+            padding: 10px 20px;
+            background-color: #e50914;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 5px;
+        }
+        .cookie-btn:hover {
+            background-color: #f40612;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to the Authentication System</h1>
+    
+    <!-- Description Box -->
+    <div class="description">
+        Take a break and have some fun with your personal login website! 🎉 Enjoy features like a mood tracker, mini games, and daily challenges that keep things exciting. It's your perfect escape—step in and start playing now! ✨
+    </div>
+    
+    <p>
+        <a href="{{ url_for('login') }}">Login</a> | <a href="{{ url_for('register') }}">Register</a>
+    </p>
+
+    <!-- Cookie Consent Popup -->
+    <div id="cookieConsent">
+        <p>This website uses cookies to improve your experience.</p>
+        <button id="acceptAll" class="cookie-btn">Accept All Cookies</button>
+        <button id="acceptRelevant" class="cookie-btn">Accept Only Relevant</button>
+        <button id="rejectAll" class="cookie-btn">Reject All</button>
+    </div>
+
+    <script>
+        // Cookie consent buttons functionality
+        document.getElementById('acceptAll').addEventListener('click', function() {
+            document.getElementById('cookieConsent').style.display = 'none';
+        });
+
+        document.getElementById('acceptRelevant').addEventListener('click', function() {
+            document.getElementById('cookieConsent').style.display = 'none';
+        });
+
+        document.getElementById('rejectAll').addEventListener('click', function() {
+            document.getElementById('cookieConsent').style.display = 'none';
+        });
+    </script>
+</body>
+</html>

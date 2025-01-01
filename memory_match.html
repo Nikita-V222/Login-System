@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mini Games</title>
+    <style>
+        body {
+            background-color: #141414;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        .game-link {
+            font-size: 1.5em;
+            padding: 20px 40px;
+            background-color: #e50914;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 20px;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .game-link:hover {
+            background-color: #f40612;
+        }
+
+        .back-link {
+            font-size: 1.2em;
+            padding: 15px 30px;
+            background-color: #333;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-link:hover {
+            background-color: #555;
+        }
+
+        /* Memory Match Game Styles */
+        .game-container {
+            display: grid;
+            grid-template-columns: repeat(4, 100px);
+            grid-gap: 10px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .card {
+            width: 100px;
+            height: 100px;
+            background-color: #333;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: transparent;
+            font-size: 2em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .card.flipped {
+            background-color: #e50914;
+            color: white;
+        }
+
+        .card.matched {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .card:hover {
+            background-color: #444;
+        }
+
+        /* Game Buttons Styles */
+        .game-button {
+            font-size: 1.2em;
+            padding: 15px 30px;
+            background-color: #e50914;  /* Red background */
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+            text-align: left;  /* Align text to the left */
+            margin-left: 20px;  /* Left margin for positioning */
+        }
+
+        .game-button:hover {
+            background-color: #f40612; /* Darker red on hover */
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Memory Match Game</h1>
+    <div class="game-container" id="game-container">
+        <!-- Cards will be inserted dynamically using JavaScript -->
+    </div>
+
+    <!-- Added buttons for starting a new game and going back to the mini-games -->
+    <a href="javascript:void(0);" class="game-button" onclick="startNewGame()">Start New Game</a>
+    <a href="{{ url_for('mini_games') }}" class="game-button">Back to Mini Games</a>
+
+    <script>
+        let flippedCards = [];
+        let matchedCards = 0;
+
+        const cardValues = ['1', '2', '3', '4', '5', '6', '7', '8', '1', '2', '3', '4', '5', '6', '7', '8'];
+        const gameContainer = document.getElementById('game-container');
+
+        // Function to shuffle the cards
+        function shuffleCards() {
+            for (let i = cardValues.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [cardValues[i], cardValues[j]] = [cardValues[j], cardValues[i]]; // Swap elements
+            }
+        }
+
+        // Function to render the cards
+        function renderCards() {
+            gameContainer.innerHTML = '';
+            cardValues.forEach(value => {
+                const card = document.createElement('div');
+                card.classList.add('card');
+                card.innerHTML = value;
+                card.onclick = () => flipCard(card);
+                gameContainer.appendChild(card);
+            });
+        }
+
+        // Function to flip a card
+        function flipCard(card) {
+            if (flippedCards.length < 2 && !card.classList.contains('flipped') && !card.classList.contains('matched')) {
+                card.classList.add('flipped');
+                flippedCards.push(card);
+
+                if (flippedCards.length === 2) {
+                    checkMatch();
+                }
+            }
+        }
+
+        // Function to check if the two flipped cards match
+        function checkMatch() {
+            const [card1, card2] = flippedCards;
+
+            if (card1.innerHTML === card2.innerHTML) {
+                card1.classList.add('matched');
+                card2.classList.add('matched');
+                matchedCards += 2;
+            } else {
+                setTimeout(() => {
+                    card1.classList.remove('flipped');
+                    card2.classList.remove('flipped');
+                }, 1000);
+            }
+
+            flippedCards = [];
+            if (matchedCards === 16) {
+                alert("Congratulations! You've matched all cards.");
+            }
+        }
+
+        // Initialize a new game
+        function startNewGame() {
+            shuffleCards();
+            renderCards();
+            matchedCards = 0; // Reset matched cards counter
+        }
+
+        // Start a new game when the page loads
+        window.onload = startNewGame;
+    </script>
+</body>
+
+</html>
