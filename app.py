@@ -10,10 +10,10 @@ users_db = {}
 user_moods = {}  # Stores moods for each user
 
 @app.route('/')
-def home():
+def index():
     if 'username' in session:
         return redirect(url_for('dashboard'))
-    return render_template('home.html')
+    return render_template('index.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -90,7 +90,7 @@ def mood_tracker():
 def logout():
     session.pop('username', None)
     flash('You have been logged out.', category='success')
-    return redirect(url_for('home'))
+    return redirect(url_for('index'))
 
 # Mini Games Routes
 @app.route('/mini_games')
